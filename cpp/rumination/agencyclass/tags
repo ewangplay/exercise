@@ -1,0 +1,120 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+AminalAgency::bark	animalagency.cpp	/^void AminalAgency::bark()$/;"	f	class:AminalAgency	signature:()
+Animal	animal.hpp	/^class Animal $/;"	c
+Animal::bark	animal.hpp	/^        virtual void bark() = 0;$/;"	p	class:Animal	access:public	signature:()
+Animal::color	animal.hpp	/^        int color;$/;"	m	class:Animal	access:private
+Animal::copy	animal.hpp	/^        virtual Animal * copy() = 0;$/;"	p	class:Animal	access:public	signature:()
+Animal::weight	animal.hpp	/^        int weight;$/;"	m	class:Animal	access:private
+Animal::~Animal	animal.hpp	/^        virtual ~Animal() = 0;$/;"	p	class:Animal	access:public	signature:()
+AnimalAgency	animalagency.cpp	/^AnimalAgency::AnimalAgency(): pa(0) $/;"	f	class:AnimalAgency	signature:()
+AnimalAgency	animalagency.cpp	/^AnimalAgency::AnimalAgency(const Animal * ptrtoanimal)$/;"	f	class:AnimalAgency	signature:(const Animal * ptrtoanimal)
+AnimalAgency	animalagency.cpp	/^AnimalAgency::AnimalAgency(const AnimalAgency & aa)$/;"	f	class:AnimalAgency	signature:(const AnimalAgency & aa)
+AnimalAgency	animalagency.hpp	/^        AnimalAgency();$/;"	p	class:AnimalAgency	access:public	signature:()
+AnimalAgency	animalagency.hpp	/^        AnimalAgency(const Animal * pa);$/;"	p	class:AnimalAgency	access:public	signature:(const Animal * pa)
+AnimalAgency	animalagency.hpp	/^        AnimalAgency(const AnimalAgency & aa);$/;"	p	class:AnimalAgency	access:public	signature:(const AnimalAgency & aa)
+AnimalAgency	animalagency.hpp	/^class AnimalAgency$/;"	c
+AnimalAgency::AnimalAgency	animalagency.cpp	/^AnimalAgency::AnimalAgency(): pa(0) $/;"	f	class:AnimalAgency	signature:()
+AnimalAgency::AnimalAgency	animalagency.cpp	/^AnimalAgency::AnimalAgency(const Animal * ptrtoanimal)$/;"	f	class:AnimalAgency	signature:(const Animal * ptrtoanimal)
+AnimalAgency::AnimalAgency	animalagency.cpp	/^AnimalAgency::AnimalAgency(const AnimalAgency & aa)$/;"	f	class:AnimalAgency	signature:(const AnimalAgency & aa)
+AnimalAgency::AnimalAgency	animalagency.hpp	/^        AnimalAgency();$/;"	p	class:AnimalAgency	access:public	signature:()
+AnimalAgency::AnimalAgency	animalagency.hpp	/^        AnimalAgency(const Animal * pa);$/;"	p	class:AnimalAgency	access:public	signature:(const Animal * pa)
+AnimalAgency::AnimalAgency	animalagency.hpp	/^        AnimalAgency(const AnimalAgency & aa);$/;"	p	class:AnimalAgency	access:public	signature:(const AnimalAgency & aa)
+AnimalAgency::bark	animalagency.hpp	/^        void bark();$/;"	p	class:AnimalAgency	access:public	signature:()
+AnimalAgency::operator =	animalagency.hpp	/^        AnimalAgency & operator=(const AnimalAgency & aa);$/;"	p	class:AnimalAgency	access:public	signature:(const AnimalAgency & aa)
+AnimalAgency::pa	animalagency.hpp	/^        Animal * pa;$/;"	m	class:AnimalAgency	access:private
+AnimalAgency::~AnimalAgency	animalagency.cpp	/^AnimalAgency::~AnimalAgency()$/;"	f	class:AnimalAgency	signature:()
+AnimalAgency::~AnimalAgency	animalagency.hpp	/^        ~AnimalAgency();$/;"	p	class:AnimalAgency	access:public	signature:()
+COLOR_BLACK	animal.hpp	/^    COLOR_BLACK,$/;"	e	enum:_enum_color
+COLOR_ORANGE	animal.hpp	/^    COLOR_ORANGE$/;"	e	enum:_enum_color
+COLOR_WHITE	animal.hpp	/^    COLOR_WHITE,$/;"	e	enum:_enum_color
+COLOR_YELLOW	animal.hpp	/^    COLOR_YELLOW,$/;"	e	enum:_enum_color
+Dog	animal.cpp	/^Dog::Dog(): weight(10), color(COLOR_DEFAULT)$/;"	f	class:Dog	signature:()
+Dog	animal.cpp	/^Dog::Dog(int weight_set, int color_set): weight(weight_set), color(color_set)$/;"	f	class:Dog	signature:(int weight_set, int color_set)
+Dog	animal.hpp	/^        Dog();$/;"	p	class:Dog	access:public	signature:()
+Dog	animal.hpp	/^        Dog(int weigth_set, int color_set);$/;"	p	class:Dog	access:public	signature:(int weigth_set, int color_set)
+Dog	animal.hpp	/^class Dog: public Animal$/;"	c	inherits:Animal
+Dog::Dog	animal.cpp	/^Dog::Dog(): weight(10), color(COLOR_DEFAULT)$/;"	f	class:Dog	signature:()
+Dog::Dog	animal.cpp	/^Dog::Dog(int weight_set, int color_set): weight(weight_set), color(color_set)$/;"	f	class:Dog	signature:(int weight_set, int color_set)
+Dog::Dog	animal.hpp	/^        Dog();$/;"	p	class:Dog	access:public	signature:()
+Dog::Dog	animal.hpp	/^        Dog(int weigth_set, int color_set);$/;"	p	class:Dog	access:public	signature:(int weigth_set, int color_set)
+Dog::bark	animal.cpp	/^void Dog::bark()$/;"	f	class:Dog	signature:()
+Dog::bark	animal.hpp	/^        virtual void bark();$/;"	p	class:Dog	access:public	signature:()
+Dog::bite	animal.hpp	/^        void bite();$/;"	p	class:Dog	access:public	signature:()
+Dog::copy	animal.cpp	/^Animal * Dog::copy()$/;"	f	class:Dog	signature:()
+Dog::copy	animal.hpp	/^        virtual Animal * copy();$/;"	p	class:Dog	access:public	signature:()
+Dog::~Dog	animal.cpp	/^Dog::~Dog()$/;"	f	class:Dog	signature:()
+Dog::~Dog	animal.hpp	/^        virtual ~Dog();$/;"	p	class:Dog	access:public	signature:()
+Horse	animal.cpp	/^Horse::Horse(): weight(100), color(COLOR_DEFAULT)$/;"	f	class:Horse	signature:()
+Horse	animal.cpp	/^Horse::Horse(int weight_set, int color_set): weight(weight_set), color(color_set)$/;"	f	class:Horse	signature:(int weight_set, int color_set)
+Horse	animal.hpp	/^        Horse();$/;"	p	class:Horse	access:public	signature:()
+Horse	animal.hpp	/^        Horse(int weight_set, int color_set);$/;"	p	class:Horse	access:public	signature:(int weight_set, int color_set)
+Horse	animal.hpp	/^class Horse: public Animal$/;"	c	inherits:Animal
+Horse::Horse	animal.cpp	/^Horse::Horse(): weight(100), color(COLOR_DEFAULT)$/;"	f	class:Horse	signature:()
+Horse::Horse	animal.cpp	/^Horse::Horse(int weight_set, int color_set): weight(weight_set), color(color_set)$/;"	f	class:Horse	signature:(int weight_set, int color_set)
+Horse::Horse	animal.hpp	/^        Horse();$/;"	p	class:Horse	access:public	signature:()
+Horse::Horse	animal.hpp	/^        Horse(int weight_set, int color_set);$/;"	p	class:Horse	access:public	signature:(int weight_set, int color_set)
+Horse::bark	animal.cpp	/^void Horse::bark()$/;"	f	class:Horse	signature:()
+Horse::bark	animal.hpp	/^        virtual void bark();$/;"	p	class:Horse	access:public	signature:()
+Horse::copy	animal.cpp	/^Animal * Horse::copy()$/;"	f	class:Horse	signature:()
+Horse::copy	animal.hpp	/^        virtual Animal * copy();$/;"	p	class:Horse	access:public	signature:()
+Horse::kick	animal.hpp	/^        void kick();$/;"	p	class:Horse	access:public	signature:()
+Horse::~Horse	animal.cpp	/^Horse::~Horse()$/;"	f	class:Horse	signature:()
+Horse::~Horse	animal.hpp	/^        virutal ~Horse();$/;"	p	class:Horse	access:public	signature:()
+Pig	animal.cpp	/^Pig::Pig(): weight(50), color(COLOR_DEFAULT)$/;"	f	class:Pig	signature:()
+Pig	animal.cpp	/^Pig::Pig(int weight_set, int color_set): weight(weight_set), color(color_set)$/;"	f	class:Pig	signature:(int weight_set, int color_set)
+Pig	animal.hpp	/^        Pig();$/;"	p	class:Pig	access:public	signature:()
+Pig	animal.hpp	/^        Pig(int weight_set, int color_set);$/;"	p	class:Pig	access:public	signature:(int weight_set, int color_set)
+Pig	animal.hpp	/^class Pig: public Animal$/;"	c	inherits:Animal
+Pig::Pig	animal.cpp	/^Pig::Pig(): weight(50), color(COLOR_DEFAULT)$/;"	f	class:Pig	signature:()
+Pig::Pig	animal.cpp	/^Pig::Pig(int weight_set, int color_set): weight(weight_set), color(color_set)$/;"	f	class:Pig	signature:(int weight_set, int color_set)
+Pig::Pig	animal.hpp	/^        Pig();$/;"	p	class:Pig	access:public	signature:()
+Pig::Pig	animal.hpp	/^        Pig(int weight_set, int color_set);$/;"	p	class:Pig	access:public	signature:(int weight_set, int color_set)
+Pig::bark	animal.cpp	/^void Pig::bark()$/;"	f	class:Pig	signature:()
+Pig::bark	animal.hpp	/^        virtual void bark();$/;"	p	class:Pig	access:public	signature:()
+Pig::copy	animal.cpp	/^Animal * Pig::copy()$/;"	f	class:Pig	signature:()
+Pig::copy	animal.hpp	/^        virtual Animal * copy();$/;"	p	class:Pig	access:public	signature:()
+Pig::crown	animal.hpp	/^        void crown();$/;"	p	class:Pig	access:public	signature:()
+Pig::~Pig	animal.cpp	/^Pig::~Pig()$/;"	f	class:Pig	signature:()
+Pig::~Pig	animal.hpp	/^        virtual ~Pig();$/;"	p	class:Pig	access:public	signature:()
+_ANIMALAGENCY_HPP_	animalagency.hpp	2;"	d
+_ANIMAL_HPP_	animal.hpp	2;"	d
+_enum_color	animal.hpp	/^enum _enum_color {$/;"	g
+bark	animal.cpp	/^void Dog::bark()$/;"	f	class:Dog	signature:()
+bark	animal.cpp	/^void Horse::bark()$/;"	f	class:Horse	signature:()
+bark	animal.cpp	/^void Pig::bark()$/;"	f	class:Pig	signature:()
+bark	animal.hpp	/^        virtual void bark() = 0;$/;"	p	class:Animal	access:public	signature:()
+bark	animal.hpp	/^        virtual void bark();$/;"	p	class:Dog	access:public	signature:()
+bark	animal.hpp	/^        virtual void bark();$/;"	p	class:Horse	access:public	signature:()
+bark	animal.hpp	/^        virtual void bark();$/;"	p	class:Pig	access:public	signature:()
+bark	animalagency.cpp	/^void AminalAgency::bark()$/;"	f	class:AminalAgency	signature:()
+bark	animalagency.hpp	/^        void bark();$/;"	p	class:AnimalAgency	access:public	signature:()
+bite	animal.hpp	/^        void bite();$/;"	p	class:Dog	access:public	signature:()
+color	animal.hpp	/^        int color;$/;"	m	class:Animal	access:private
+copy	animal.cpp	/^Animal * Dog::copy()$/;"	f	class:Dog	signature:()
+copy	animal.cpp	/^Animal * Horse::copy()$/;"	f	class:Horse	signature:()
+copy	animal.cpp	/^Animal * Pig::copy()$/;"	f	class:Pig	signature:()
+copy	animal.hpp	/^        virtual Animal * copy() = 0;$/;"	p	class:Animal	access:public	signature:()
+copy	animal.hpp	/^        virtual Animal * copy();$/;"	p	class:Dog	access:public	signature:()
+copy	animal.hpp	/^        virtual Animal * copy();$/;"	p	class:Horse	access:public	signature:()
+copy	animal.hpp	/^        virtual Animal * copy();$/;"	p	class:Pig	access:public	signature:()
+crown	animal.hpp	/^        void crown();$/;"	p	class:Pig	access:public	signature:()
+kick	animal.hpp	/^        void kick();$/;"	p	class:Horse	access:public	signature:()
+main	main.cpp	/^int main(int argc, char **argv)$/;"	f	signature:(int argc, char **argv)
+operator =	animalagency.cpp	/^AnimalAgency & operator=(const AnimalAgency & aa)$/;"	f	signature:(const AnimalAgency & aa)
+operator =	animalagency.hpp	/^        AnimalAgency & operator=(const AnimalAgency & aa);$/;"	p	class:AnimalAgency	access:public	signature:(const AnimalAgency & aa)
+pa	animalagency.hpp	/^        Animal * pa;$/;"	m	class:AnimalAgency	access:private
+weight	animal.hpp	/^        int weight;$/;"	m	class:Animal	access:private
+~Animal	animal.hpp	/^        virtual ~Animal() = 0;$/;"	p	class:Animal	access:public	signature:()
+~AnimalAgency	animalagency.cpp	/^AnimalAgency::~AnimalAgency()$/;"	f	class:AnimalAgency	signature:()
+~AnimalAgency	animalagency.hpp	/^        ~AnimalAgency();$/;"	p	class:AnimalAgency	access:public	signature:()
+~Dog	animal.cpp	/^Dog::~Dog()$/;"	f	class:Dog	signature:()
+~Dog	animal.hpp	/^        virtual ~Dog();$/;"	p	class:Dog	access:public	signature:()
+~Horse	animal.cpp	/^Horse::~Horse()$/;"	f	class:Horse	signature:()
+~Horse	animal.hpp	/^        virutal ~Horse();$/;"	p	class:Horse	access:public	signature:()
+~Pig	animal.cpp	/^Pig::~Pig()$/;"	f	class:Pig	signature:()
+~Pig	animal.hpp	/^        virtual ~Pig();$/;"	p	class:Pig	access:public	signature:()

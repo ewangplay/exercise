@@ -1,0 +1,24 @@
+#!/usr/bin/ksh
+#ifmkdir
+
+DIRECTORY=$1
+
+if [ -z "$DIRECTORY" ]; then
+	echo "Usage: `basename $0` dir_to_create"
+	exit 1
+fi
+
+if [ ! -d "$DIRECTORY" ]; then
+	echo "The directory does exist."
+	echo "Create it now[y..n]:"
+	read ANS
+	if [ "$ANS" = "y" ] || [ "$ANS" = "Y" ]; then
+		echo "Create now ..."
+		mkdir -p $DIRECTORY > /dev/null 2>&1
+		if [ !  "$?" -eq 0 ]; then
+			echo "Error when creating the $DIRECTORY" >&2
+			exit 1
+		fi
+	fi
+fi
+

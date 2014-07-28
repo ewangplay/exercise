@@ -1,0 +1,9 @@
+#this the first record
+record 1
+#this the second record
+record 2
+#this the third record
+record 3
+record 4
+record 5
+record 6

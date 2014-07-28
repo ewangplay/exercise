@@ -1,0 +1,16 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+CC	makefile	/^CC=gcc$/;"	m
+LIBS	makefile	/^LIBS=`pkg-config --libs gtk+-2.0`$/;"	m
+OBJS	makefile	/^OBJS=$(SRCS:%.c=%.o)$/;"	m
+SRCS	makefile	/^SRCS=$(wildcard .\/*.c)$/;"	m
+TARGET	makefile	/^TARGET=arrow$/;"	m
+check_callback	arrow.c	/^void check_callback(GtkWidget *widget, gpointer data)$/;"	f	signature:(GtkWidget *widget, gpointer data)
+create_arrow_button	arrow.c	/^GtkWidget *create_arrow_button(GtkArrowType arrow_type, GtkShadowType shadow_type)$/;"	f	signature:(GtkArrowType arrow_type, GtkShadowType shadow_type)
+destroy	arrow.c	/^void destroy(GtkWidget *widget, gpointer data)$/;"	f	signature:(GtkWidget *widget, gpointer data)
+main	arrow.c	/^int main(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+tooltips	arrow.c	/^GtkTooltips *tooltips;$/;"	v

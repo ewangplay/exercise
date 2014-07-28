@@ -1,0 +1,400 @@
+#!/bin/ksh
+#
+#******************************************************************
+#* IBM Confidential
+#*
+#* OCO Source Materials
+#* 
+#* 5724-N93 (Change with specific PID)
+#* Copyright IBM Corp. 2005, 2006,2007
+#* The source code for this program is not published or otherwise 
+#* divested of its trade secrets, irrespective of what
+#* been deposited with the U.S. Copyright Office.
+#* 
+#*******************************************************************
+#* Created by: cfox - 31-Aug-2007
+#* Version: 1.0
+#* Last Changed: %E% %U%
+#* Version Control: "%Z% %I% %E% %U% %W% %Z%"
+#*
+#* Change Activity:
+#* _trk_ __Date__ _PGMR_ _Description_________________________
+#*******************************************************************/
+
+PROGNAME=`basename $0`
+build_file=$WMCROOT/conf/part_maint/part_maint.xml
+wmc_ant=$WMCROOT/bin/wmc_ant
+do_target="$wmc_ant -f $build_file"
+default_db_name='sadb'
+default_db_user='saserver'
+default_db_pwd='Saserver01'
+
+if [ ! -e "$build_file" ]
+then
+        printf "$build_file missing.\n"
+        exit -1
+fi
+
+#-------------------------------------------------------------------------------
+# usage
+# Description - Display script usage
+#-------------------------------------------------------------------------------
+
+usage() {
+        printf "Usage: %s [-add] [-delete] [-pin] [-unpin] \n" "$PROGNAME"
+        printf "\t\t  [-showparams] [-listparams] [-updateparams] [-listsessions] [-updatesessions] \n" 
+        printf "\t\t  [-listtypes] [-listpart] [-listpinned] [-listspace] [-logs] [-errors] [-status] [-help] \n\n"
+        printf "\t -add \t\t Add partitions \n"
+        printf "\t\t\t Limit scope using [-type] [-subtype] [-tabtype] [-filter] [-sdate] [-edate] \n"
+        printf "\t -delete \t Delete partitions \n"
+        printf "\t\t\t Limit scope using  [-type] [-subtype] [-tabtype] [-filter] [-sdate] [-edate] \n"
+        printf "\t -export \t Export partitions \n"
+        printf "\t\t\t Limit scope using  [-tname <TABLE_NAME> -sdate <> -edate <>] | [-pname <TABLE_NAME>:<PARTITION_NAME>] \n"
+        printf "\t -import \t Import partitions \n"
+        printf "\t\t\t Limit scope using  [-pname <TABLE_NAME>:<PARTITION_NAME>] \n"
+        printf "\t -pin \t\t Pin partitions into the database so they are not purged by partition maintenance \n"
+        printf "\t\t\t Limit scope using  [-type] [-subtype] [-tabtype] [-filter] [-sdate] [-edate] \n"
+        printf "\t -unpin \t Unpin partitions so they can be purged by partition maintenance \n"
+        printf "\t\t\t Limit scope using [-type] [-subtype] [-tabtype] [-filter] [-sdate] [-edate] \n"
+        printf "\t -showparams \t Display all configurable partition maintenance parameters \n"
+        printf "\t -listparams \t Display all parameters settings. \n"
+        printf "\t\t\t Limit scope using [-type] [-subtype] [-tabtype]\n"
+        printf "\t -updateparams \t Update specific partition maintenance settings \n"
+        printf "\t\t\t Limit scope using [-type] [-subtype] [-tabtype] [-filter] [-param] [-value]\n"
+        printf "\t -listsessions \t Display the number of configurable parallel PM sessions \n"
+        printf "\t -updatesessions Update the number of configurable parallel PM sessions \n"
+        printf "\t\t\t Limit scope using [-value]\n"
+        printf "\t -listtypes \t List the available types on the system \n"
+        printf "\t\t\t Limit scope using [-type] \n"
+        printf "\t -listpart \t List the partitions per table \n"
+        printf "\t\t\t Limit scope using [-type] [-subtype] [-tabtype] [-filter] [-sdate] [-edate]\n"
+        printf "\t -listpinned \t List the pinned partitions per table \n"
+        printf "\t\t\t Limit scope using [-type] [-subtype] [-tabtype] [-filter] \n"
+        printf "\t -listspace \t Display the current space settings per tablespace \n"
+        printf "\t -logs \t\t Display the PM logs per job id\n"
+        printf "\t\t\t Limit scope using [-id] \n"
+        printf "\t -errors \t Display the PM Error logs per job id\n"
+        printf "\t -status \t Display the Status of the Active PM Job\n"
+        printf "\t -help \t\t help\n\n"
+        printf "Limited by:\t  [-type] [-subtype] [-tabtype] [-filter] [-sdate] [-edate]\n"
+        printf "\t -type \t\t Type of Table, valid type is TABLE\n"
+        printf "\t -subtype \t Sub-Type associated with a specific type, examples include TRAFFIC, SUMDAILY, SUMWEEKLY\n"
+        printf "\t -tabtype \t Table Type, examples include TRAFFIC, SUMDAILY, SUMWEEKLY\n"
+        printf "\t -filter \t Filter the query by table name, examples include ""\"SA_HST_%%"\"", ""\"%%_AGG"\""\n"
+        printf "\t -sdate \t Start Time, sdate  format: yyyymmddhh24.\n"
+        printf "\t -edate \t End Time, edate  format: yyyymmddhh24.\n"
+        printf "Additional Options:\t  [-param] [-value] [-tname] [-pname] \n"
+        printf "\t -param \t Parameter for updating PM parameters, examples include data_retention, tablespace_name \n"
+        printf "\t -value \t Value for update PM parameters and settings. \n"
+        printf "\t -tname \t Table Name for export task. \n"
+        printf "\t -pname \t Partition Name for export and import tasks, example <TABLE_NAME>:<PARTITION_NAME> \n"
+}
+
+#-------------------------------------------------------------------------------
+# read_cmd_line
+# Description - Read command line parameters
+#-------------------------------------------------------------------------------
+
+read_cmd_line() {
+
+    while [ $# != 0 ]; do
+        case "$1" in
+            -add)
+                task=$1
+                ;;
+
+            -delete)
+                task=$1
+                ;;
+
+            -export)
+                task=$1
+                ;;
+
+            -import)
+                task=$1
+                ;;
+
+            -pin)
+                task=$1
+                ;;
+
+            -unpin)
+                task=$1
+                ;;
+
+            -showparams)
+                task=$1
+                ;;
+
+            -listparams)
+                task=$1
+                ;;
+
+            -updateparams)
+                task=$1
+                ;;
+
+            -listpart)
+                task=$1
+                ;;
+
+            -listpinned)
+                task=$1
+                ;;
+
+            -listtypes)
+                task=$1
+                ;;
+
+            -listsessions)
+                task=$1
+                ;;
+
+            -updatesessions)
+                task=$1
+                ;;
+
+            -logs)
+                task=$1
+                ;;
+
+            -errors)
+                task=$1
+                ;;
+
+            -listspace)
+                task=$1
+                ;;
+
+            -status)
+                task=$1
+                ;;
+
+            -help)
+                usage
+                exit 1
+                ;;
+
+            -type)
+                shift
+                type=$1
+                ;;
+
+            -subtype)
+                shift
+                subtype=$1
+                ;;
+
+            -tabtype)
+                shift
+                tabtype=$1
+                ;;
+
+            -filter)
+                shift
+                filter=$1
+                ;;
+
+            -sdate)
+                shift
+                req_str=9999999999
+                rcv_str=`echo $1| tr ' [0-9]' '[9*]'`
+                if [ $req_str = $rcv_str ]; then
+                    sdate=$1
+                else
+                    printf "ERROR: invalid sdate entered, sdate  format: yyyymmddhh24.\n"
+                fi
+                ;;
+
+            -edate)
+                shift
+                req_str=9999999999
+                rcv_str=`echo $1| tr ' [0-9]' '[9*]'`
+                if [ $req_str = $rcv_str ]; then
+                    edate=$1
+                else
+                    printf "ERROR: invalid edate entered, edate  format: yyyymmddhh24.\n"
+                fi
+                ;;
+		
+            -value)
+                shift
+                value=$1
+                ;;
+
+            -id)
+                shift
+                logid=$1
+                ;;
+
+            -param)
+                shift
+                param=$1
+                ;;
+
+            -tname)
+                shift
+                emode='time'
+                tname=$1
+                ;;
+
+            -pname)
+                shift
+                emode='name'
+                pname=$1
+                ;;
+
+            *)
+                printf "ERROR: invalid command line \n"
+                usage
+                exit 1
+                ;;
+            esac
+            shift
+    done
+
+    if [ -z "$task" ]; then
+            printf "ERROR: Partition Maintenance task option is mandatory \n"
+            usage
+            exit 1
+    fi
+
+    if [ ${task} = "-add" ] || [ ${task} = "-delete" ] || [ ${task} = "-pin" ] || [ ${task} = "-unpin" ] ; then
+	if [ -z "$sdate" ] ; then
+            printf "ERROR: sdate option is mandatory for -add, -delete, -pin and -unpin partition maintenance tasks \n"
+            usage
+            exit 1
+        elif [ -z "$edate" ] ; then
+            printf "ERROR: edate option is mandatory for -add, -delete, -pin and -unpin partition maintenance tasks \n"
+            usage
+            exit 1
+        fi
+    fi
+
+    if [ ${task} = "-updateparams" ] || [ ${task} = "-updatesessions" ] ; then
+        if [ -z "$value" ] ; then
+            printf "ERROR: value option is mandatory for -updateparams and -updatesessions partition maintenance tasks \n"
+            usage
+            exit 1
+        fi
+    fi
+
+    if [ ${task} = "-listtypes" ] ; then
+        if [ -z "$type" ] ; then
+            type="TABLE"
+        fi
+    fi
+
+    if [ ${task} = "-export" ] ; then
+        if [ -z "$tname" ] && [ -z "$pname" ] ; then
+            printf "ERROR: -tname OR -pname option is required for -export partition maintenance task \n"
+            usage
+            exit 1
+        fi
+        if [ -n "$tname" ] ; then
+            if [ -z "$sdate" ] ; then
+                printf "ERROR: sdate option is mandatory for -export [-tname] partition maintenance task \n"
+                usage
+                exit 1
+            elif [ -z "$edate" ] ; then
+                printf "ERROR: edate option is mandatory for -export [-tname] partition maintenance task \n"
+                usage
+                exit 1
+            fi
+        fi
+    fi
+
+    if [ ${task} = "-import" ] ; then
+        if [ -z "$pname" ] ; then
+            printf "ERROR: -pname option is mandatory for -import partition maintenance task \n"
+            usage
+            exit 1
+        fi
+    fi
+
+    [ -z "$type" ] && type="ALL"
+    [ -z "$subtype" ] && subtype="ALL"
+    [ -z "$tabtype" ] && tabtype="ALL"
+    [ -z "$filter" ] && filter="ALL"
+
+}
+
+
+#--------------------------------------------------------------------------------------
+# runPartitionMaintenance
+# Description - The function allows the running of the Partition Maintenance Tool
+#--------------------------------------------------------------------------------------
+
+runPartitionMaintenance() {
+
+    if [[ ${task} = '-export' ]] ; then
+
+        read_sid
+        read_user
+        read_pwd
+
+        if [[ $emode = 'time' ]] ; then
+            ${WMCROOT}/bin/part_expimp -vtuser $dbuser -vtpwd $dbuser_pwd -sid $ora_sid -export -tname $tname -time_range $sdate $edate
+        elif [[ $emode = 'name' ]] ; then
+            ${WMCROOT}/bin/part_expimp -vtuser $dbuser -vtpwd $dbuser_pwd -sid $ora_sid -export -pname $pname
+        fi
+    elif [[ ${task} = '-import' ]] ; then        
+
+        read_sid
+        read_user
+        read_pwd
+
+            ${WMCROOT}/bin/part_expimp -vtuser $dbuser -vtpwd $dbuser_pwd -sid $ora_sid -import -pname $pname
+    else
+
+        exec $do_target run -Dtask=$task -Dtype="${type}" -Dsubtype="${subtype}" -Dtabtype="${tabtype}" -Dfilter="${filter}" -Dsdate="${sdate}" -Dedate="${edate}" -Dparam="${param}" -Dvalue="${value}" -Dlogid="${logid}" | sed -e 's/\[runPartMaint\]//g';
+    fi
+}
+
+#--------------------------------------------------------------------------------------
+# read_sid
+# Description - The function allows the user to define the Database name
+#--------------------------------------------------------------------------------------
+
+read_sid (){
+   print -n "Please enter database name [${default_db_name}] : "
+   read ora_sid
+   if [[ $ora_sid = '' ]] ; then
+       ora_sid=${default_db_name}
+   fi
+}
+
+
+#--------------------------------------------------------------------------------------
+# read_user
+# Description - The function allows the user to define the database user name
+#--------------------------------------------------------------------------------------
+
+read_user (){
+   print -n "Please enter database user name [${default_db_user}] : "
+   read dbuser
+   if [[ $dbuser = '' ]] ; then
+       dbuser=${default_db_user}
+   fi
+}
+
+#--------------------------------------------------------------------------------------
+# read_pwd
+# Description - The function allows to define the database user password
+#--------------------------------------------------------------------------------------
+
+read_pwd (){
+   print -n "Please enter database user password [${default_db_pwd}] : "
+   read dbuser_pwd
+   if [[ $dbuser_pwd = '' ]] ; then
+       dbuser_pwd=${default_db_pwd}
+   fi
+}
+
+#-------------------------------------------------------------------------------
+# main function
+#-------------------------------------------------------------------------------
+
+read_cmd_line "$@"
+runPartitionMaintenance

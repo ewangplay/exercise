@@ -1,0 +1,6 @@
+# scan interval
+interval=5
+
+# data file path
+data_file_path=/home/oracle/wxh/data
+

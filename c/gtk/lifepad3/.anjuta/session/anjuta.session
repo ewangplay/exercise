@@ -1,0 +1,12 @@
+
+[Anjuta]
+Maximized=1
+Geometry=1018x677+0+33
+
+[File Loader]
+Files=file:///home/dahui/Program/gtk/lifepad3/src/lifepad3.glade#314%%%file:///home/dahui/Program/gtk/lifepad3/src/callbacks.c#40%%%file:///home/dahui/Program/gtk/lifepad3/src/callbacks.h#24%%%file:///home/dahui/Program/gtk/lifepad3/src/main.c#76%%%file:///home/dahui/Program/gtk/lifepad3/src/lifepad3.glade
+
+[Execution]
+Program arguments=
+Run in terminal=2
+Last selected uri=file:///home/dahui/Program/gtk/lifepad3/src/lifepad3

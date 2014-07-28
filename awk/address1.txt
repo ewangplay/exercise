@@ -1,0 +1,8 @@
+li	30	Zhengzhou
+ma	8       Hangzhou
+qian	25	Nanjing
+wang	20	Beijing
+zhao	21	Shanghai
+zhao	21	Shanghai
+zhao	21	Shanghai
+zhao	21	Shanghai

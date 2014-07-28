@@ -1,0 +1,156 @@
+#!/bin/ksh
+#
+# IBM Confidential
+#
+# OCO Source Materials
+#
+# --SA4.1.1_PID--
+# Copyright IBM Corp. 2005, 2006,2007,2008
+# The source code for this program is not published or otherwise
+# divested of its trade secrets, irrespective of what
+# been deposited with the U.S. Copyright Office.
+#
+
+package_root=$WMCROOT/admin/package
+provision_extension=provision
+provision_root=$WMCROOT/admin/provision
+build_file=${provision_root}/packageBuild
+wmc_ant=$WMCROOT/bin/wmc_ant
+do_target="$wmc_ant -f ${build_file}.xml"
+
+if [ ! -e "${build_file}.xml" ]
+then
+    echo "${build_file}.xml missing.  Please ensure package mgmt build installed."
+fi
+
+# ----------------------------------------------------------------
+# Functions
+# ----------------------------------------------------------------
+confirm_clean() {
+    echo "Note that this will remove all provisioning from the ServiceAssure system for the package ."
+    printf "Are you sure you want to continue [y/n] "
+    read ans
+    if test "$ans" != "y" && test "$ans" != "Y"; then
+        echo "Provisioning entities have not been cleaned"
+        exit 0
+    fi
+}
+
+usage() {
+    printf "Usage:\n"
+    printf "    %s {i|c|l|h} [options]\n" `basename $0`
+    printf "\n"
+    printf "Commands:\n"
+    printf "    install: package_mgmt -i package_name [-f] [-e entity_key]\n"
+    printf "    clean  : package_mgmt -c package_name [-f] [-e entity_key]\n"
+    printf "    depend : package_mgmt -d package_name\n"
+    printf "    list   : package_mgmt -l [-v]\n"
+    printf "    help   : package_mgmt -h\n"
+    printf "\n"
+    printf "Options:\n"
+    printf "    -f     : force install or clean\n"
+    printf "    -e     : name of entity to install or clean\n"
+    printf "    -v     : display verbose output for list command\n"
+}
+
+# ----------------------------------------------------------------
+# Main loop
+# ----------------------------------------------------------------
+package_entity=all
+suffix=
+do_verbose=
+debug=
+force=false
+operation=
+
+if [ $# -eq 0 ]
+then
+        usage;exit 1;
+fi
+
+while getopts "i:fc:e:lvhzd:u:" script_arg
+do
+
+        case $script_arg in
+
+        z)
+            echo "Enabling Debug";debug="true";;
+
+        i)
+            package_name=$OPTARG
+            if [[ -n $operation ]]; then echo "ERROR: invalid command line"; usage; exit 1; fi
+            operation=install
+            suffix=" 2>&1 | perl -ne 's/ to \/appl\/sa\/var(.*)//g;print if !/stylesheet|tasks|delete|1 file/'"
+            ;;
+
+        u)
+            package_name=$OPTARG
+            if [[ -n $operation ]]; then echo "ERROR: invalid command line"; usage; exit 1; fi
+            operation=update
+            suffix=" 2>&1 | perl -ne 's/ to \/appl\/sa\/var(.*)//g;print if !/stylesheet|tasks|delete|1 file/'"
+            ;;
+
+        f)
+            force=true;;
+
+        e)
+            package_entity=$OPTARG
+            ;;
+
+        c)
+            package_name=$OPTARG
+            if [[ -n $operation ]]; then echo "ERROR: invalid command line"; usage; exit 1; fi
+            operation=clean
+            suffix=" 2>&1 | perl -ne 's/ to \/appl\/sa\/var(.*)//g;print if !/stylesheet|tasks|delete|1 file/'"
+            ;;
+
+        l)
+            if [[ -n $operation ]]; then echo "ERROR: invalid command line"; usage; exit 1; fi
+            operation=list
+            suffix="| grep \"\[\" | perl -i -p -e 's/\[packagebroker\] //'"
+            ;;
+
+        v)
+            do_verbose="true"
+            ;;
+
+        d)
+            package_name=$OPTARG
+            if [[ -n $operation ]]; then echo "ERROR: invalid command line"; usage; exit 1; fi
+            operation=dependency
+            suffix=" 2>&1 | perl -ne 's/\[packagebroker\] //g;print if !/^BUILD SUCCESSFUL$|^Total time|^Buildfile: |^tasks:$|^dependency:$/'"
+            ;;
+
+        h)
+            usage
+            exit
+            ;;
+
+        \?)
+            echo "ERROR: invalid command line"
+            usage
+            exit 1
+            ;;
+        esac
+done
+shift $(($OPTIND - 1))
+
+if [[ $force = "true" && -z $operation ]]
+then
+    usage;exit 1;
+fi;
+
+if [[ -n $debug && -z $operation ]]
+then
+    usage;exit 1;
+fi;
+
+#set these here rather than in params to deal with case of -v option before -l
+if [[ -n $do_verbose ]]
+then
+    operation=list_detail
+    suffix="| grep \"\[\" | perl -i -p -e 's/\[packagebroker\] //'"
+fi
+
+if [[ -n $debug ]]; then echo "Executing command : $do_target $operation -Dpackage.name=$package_name -Dpackage.entity=$package_entity -Dpackage.doForce=$force $* $suffix";fi
+eval "$do_target $operation -Dpackage.name=$package_name -Dpackage.entity=$package_entity -Dpackage.doForce=$force $* $suffix"

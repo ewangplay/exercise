@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-    s := stack.NewIntStack()
+    s := stack.NewIntStack(10)
 
     s.Push(2)
     s.Push(3)

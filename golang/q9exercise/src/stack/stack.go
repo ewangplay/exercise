@@ -1,3 +1,10 @@
+/*
+    Implementaion for int stack
+    Interface:
+        NewIntStack(max int)
+        Push(elem int)
+        Pop()
+*/
 package stack
 
 import (
@@ -10,10 +17,10 @@ type IntStack struct {
     pos int
 }
 
-func NewIntStack() *IntStack {
+func NewIntStack(max int) *IntStack {
     s := new(IntStack)
-    s.data = make([]int, 10)
-    s.cap = 10; s.pos = 0
+    s.data = make([]int, max)
+    s.cap = max; s.pos = 0
     return s
 }
 

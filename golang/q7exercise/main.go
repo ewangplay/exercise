@@ -10,7 +10,7 @@ func main() {
     fmt.Println(order(7, 2))
 }
 
-func order(n1, n2 int) (fn, sn int) {
+func order(n1, n2 int) (int, int) {
     if n1 < n2 {
         return n1, n2
     }

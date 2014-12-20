@@ -2,4 +2,6 @@ tags
 *.o
 *.swp
 cscope.*
+*/bin/*
+*/pkg/*
 

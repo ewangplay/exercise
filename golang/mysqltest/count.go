@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:wxhljh111@tcp(localhost:3306)/track?charset=utf8")
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/track?charset=utf8")
 	if err != nil {
 		panic(err)
 	}
@@ -15,7 +15,7 @@ func main() {
 
 	fmt.Println("连接Mysql数据库成功")
 
-	rows, err := db.Query("select id,uvid from user_behavior where last_source=\"weibo\"")
+	rows, err := db.Query("select count(uvid) from user_behavior where last_source=\"weibo\"")
 	if err != nil {
 		panic(err)
 	}
@@ -23,12 +23,11 @@ func main() {
 
 	fmt.Println("查询Mysql数据库Track成功")
 
-	var id int
-	var uvid string
+	var count int
 	for rows.Next() {
-		rerr := rows.Scan(&id, &uvid)
+		rerr := rows.Scan(&count)
 		if rerr == nil {
-			fmt.Printf("%v %v\n", id, uvid)
+			fmt.Printf("%v\n", count)
 		}
 	}
 }

@@ -9,13 +9,6 @@ import (
 	"strings"
 )
 
-type myHandler struct{}
-
-func (h *myHandler) HandleMessage(m *nsq.Message) error {
-	fmt.Println(string(m.Body))
-	return nil
-}
-
 func main() {
 	if len(os.Args) != 3 {
 		fmt.Printf("usage: %v <127.0.0.1:4150> <topic>\n", os.Args[0])

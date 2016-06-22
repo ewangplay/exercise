@@ -7,9 +7,16 @@ unless(open(MYFILE, ">log.txt"))
 
 while($line = <>)
 {
+    chomp($line);
+
+    if($line eq "exit") 
+    {
+        last;
+    }
+
 	print(length($line), ": ");
-	print($line);
-	print MYFILE ($line);
+	print($line, "\n");
+	print MYFILE ($line, "\n");
 }
 
 close(MYFILE);

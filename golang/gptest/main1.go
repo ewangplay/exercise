@@ -1,0 +1,110 @@
+package main
+
+import (
+	"fmt"
+	"gopkg.in/pg.v3"
+)
+
+type ArticleFilter struct {
+	Id         int64
+	Name       string
+	CategoryId int
+}
+
+func (f *ArticleFilter) FilterName() pg.Q {
+	if f.Name == "" {
+		return ""
+	}
+	return pg.MustFormatQ("AND name = ?", f.Name)
+}
+
+func (f *ArticleFilter) FilterCategory() pg.Q {
+	if f.CategoryId == 0 {
+		return ""
+	}
+	return pg.MustFormatQ("AND category_id = ?", f.CategoryId)
+}
+
+type Article struct {
+	Id         int64
+	Name       string
+	CategoryId int
+}
+
+type Articles struct {
+	C []Article
+}
+
+var _ pg.Collection = &Articles{}
+
+func (articles *Articles) NewRecord() interface{} {
+	articles.C = append(articles.C, Article{})
+	return &articles.C[len(articles.C)-1]
+}
+
+func CreateArticle(db *pg.DB, article *Article) error {
+	_, err := db.ExecOne(`
+    INSERT INTO articles (name, category_id)
+    VALUES (?name, ?category_id)
+    `, article)
+	return err
+}
+
+func GetArticle(db *pg.DB, id int64) (*Article, error) {
+	article := &Article{}
+	_, err := db.QueryOne(article, `SELECT * FROM articles WHERE id = ?`, id)
+	return article, err
+}
+
+func GetArticles(db *pg.DB, f *ArticleFilter) ([]Article, error) {
+	var articles Articles
+	_, err := db.Query(&articles, `
+    SELECT * FROM articles WHERE 1=1 ?FilterName ?FilterCategory
+    `, f)
+	if err != nil {
+		return nil, err
+	}
+	return articles.C, nil
+}
+
+func main() {
+	var err error
+
+	db := pg.Connect(&pg.Options{
+		Host:     "10.254.34.40",
+		Port:     "2345",
+		User:     "gpadmin",
+		Password: "gpadmin",
+		Database: "jzl_db",
+	})
+	defer db.Close()
+
+	/*
+		_, err := db.Exec(`CREATE TABLE articles (id serial, name text, category_id int)`)
+		if err != nil {
+			panic(err)
+		}
+	*/
+
+	/*
+		for i := 3; i <= 10; i++ {
+			err = CreateArticle(db, &Article{Name: fmt.Sprintf("article%v", i), CategoryId: i})
+			if err != nil {
+				panic(err)
+			}
+		}
+	*/
+
+	articles, err := GetArticles(db, &ArticleFilter{})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%d %v %v\n", len(articles), articles, articles)
+
+	articles, err = GetArticles(db, &ArticleFilter{CategoryId: 1})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%d %v\n", len(articles), articles[0])
+
+}

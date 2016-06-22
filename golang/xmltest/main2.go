@@ -6,6 +6,8 @@ import (
 )
 
 type LocalWeixinPrivateMsg struct {
+	CustomerId   int
+	AccountId    int
 	ToUserName   string  `xml:"ToUserName"`
 	FromUserName string  `xml:"FromUserName"`
 	CreateTime   int64   `xml:"CreateTime"`
@@ -33,7 +35,10 @@ type LocalWeixinPrivateMsg struct {
 }
 
 func main() {
-	v_text := LocalWeixinPrivateMsg{}
+	v_text := LocalWeixinPrivateMsg{
+		CustomerId: 10,
+		AccountId:  20,
+	}
 	v_pic := LocalWeixinPrivateMsg{}
 	v_voice := LocalWeixinPrivateMsg{}
 	v_vedio := LocalWeixinPrivateMsg{}
